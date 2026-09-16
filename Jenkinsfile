@@ -140,17 +140,5 @@ pipeline {
             junit 'test-results.xml'
             cleanWs()
         }
-
-        failure {
-            withCredentials([
-                string(credentialsId: 'slack-webhook-url', variable: 'SLACK_WEBHOOK')
-            ]) {
-                sh '''
-                    curl -X POST -H 'Content-type: application/json' \
-                    --data "{\"text\":\"Jenkins build failed: $JOB_NAME #$BUILD_NUMBER - $BUILD_URL\"}" \
-                    $SLACK_WEBHOOK
-                '''
-            }
-        }
     }
 }
